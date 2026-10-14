@@ -1,0 +1,653 @@
+{
+  "name": "ConsultaCEP_2",
+  "nodes": [
+    {
+      "parameters": {
+        "url": "=https://brasilapi.com.br/api/cep/v2/{{ $json.cep.replace(/\\D/g, '') }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        544,
+        368
+      ],
+      "id": "50beac44-a4d8-4555-9b81-f976ca4f6ac6",
+      "name": "Consulta CEP",
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "ddfb7770-749d-489d-b3b9-ba29f94470b3",
+              "leftValue": "={{ $json.state }}",
+              "rightValue": "MT",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        768,
+        192
+      ],
+      "id": "85d22746-194b-4133-b5f7-cb2eb6661416",
+      "name": "if verifica MT"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "bae421b7-ce4e-4f33-9981-daa370fbbbec",
+              "name": "protocolo",
+              "value": "={{ $('dados').item.json.protocolo }}",
+              "type": "string"
+            },
+            {
+              "id": "925801b3-fca8-4c87-877a-b1be9cd6e398",
+              "name": "razao_social",
+              "value": "={{ $('dados').item.json.razao_social }}",
+              "type": "string"
+            },
+            {
+              "id": "f5b09af4-298b-4c7a-bab6-8f95f945e867",
+              "name": "cnpj",
+              "value": "={{ $('dados').item.json.cnpj }}",
+              "type": "string"
+            },
+            {
+              "id": "a1517563-bc77-43a4-a457-a5c7f3e55081",
+              "name": "email",
+              "value": "={{ $('dados').item.json.email }}",
+              "type": "string"
+            },
+            {
+              "id": "4293e2c6-e2fd-45c4-921a-046aab3c722a",
+              "name": "cep",
+              "value": "={{ $('dados').item.json.cep }}",
+              "type": "string"
+            },
+            {
+              "id": "5d7fa8e4-25d8-4084-a541-6649df991cc0",
+              "name": "uf",
+              "value": "={{ $('Consulta CEP').item.json.state }}",
+              "type": "string"
+            },
+            {
+              "id": "e7847172-7827-4cba-b4e8-d86614f87108",
+              "name": "logradouro",
+              "value": "={{ $('Consulta CEP').item.json.street }}",
+              "type": "string"
+            },
+            {
+              "id": "afeb37b8-7c51-4e38-b753-0b4ead631210",
+              "name": "municipio",
+              "value": "={{ $('Consulta CEP').item.json.city }}",
+              "type": "string"
+            },
+            {
+              "id": "f0924018-f27a-4535-abd1-4a1387cd8663",
+              "name": "situacao",
+              "value": "APTO",
+              "type": "string"
+            },
+            {
+              "id": "e1c1f5de-60d2-4ff5-8f92-70d9a721348a",
+              "name": "mensagem",
+              "value": "=Prezado  {{ $('dados').item.json.representante }}, O cadastro segue para analise documental.",
+              "type": "string"
+            },
+            {
+              "id": "ecacfdf1-ec77-46b2-9e5c-ce852f607944",
+              "name": "consultado_em",
+              "value": "={{ $now.setZone('America/Cuiaba').toFormat('dd/MM/yyyy HH:mm') }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        1088,
+        64
+      ],
+      "id": "15cf2931-fab7-4f26-baa5-e3debcb6135a",
+      "name": "apto para cadastro"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "bae421b7-ce4e-4f33-9981-daa370fbbbec",
+              "name": "protocolo",
+              "value": "={{ $('dados').item.json.protocolo }}",
+              "type": "string"
+            },
+            {
+              "id": "925801b3-fca8-4c87-877a-b1be9cd6e398",
+              "name": "razao_social",
+              "value": "={{ $('dados').item.json.razao_social }}",
+              "type": "string"
+            },
+            {
+              "id": "f5b09af4-298b-4c7a-bab6-8f95f945e867",
+              "name": "cnpj",
+              "value": "={{ $('dados').item.json.cnpj }}",
+              "type": "string"
+            },
+            {
+              "id": "a1517563-bc77-43a4-a457-a5c7f3e55081",
+              "name": "email",
+              "value": "={{ $('dados').item.json.email }}",
+              "type": "string"
+            },
+            {
+              "id": "4293e2c6-e2fd-45c4-921a-046aab3c722a",
+              "name": "cep",
+              "value": "={{ $('dados').item.json.cep }}",
+              "type": "string"
+            },
+            {
+              "id": "5d7fa8e4-25d8-4084-a541-6649df991cc0",
+              "name": "uf",
+              "value": "={{ $('Consulta CEP').item.json.state }}",
+              "type": "string"
+            },
+            {
+              "id": "e7847172-7827-4cba-b4e8-d86614f87108",
+              "name": "logradouro",
+              "value": "={{ $('Consulta CEP').item.json.street }}",
+              "type": "string"
+            },
+            {
+              "id": "afeb37b8-7c51-4e38-b753-0b4ead631210",
+              "name": "municipio",
+              "value": "={{ $('Consulta CEP').item.json.city }}",
+              "type": "string"
+            },
+            {
+              "id": "f0924018-f27a-4535-abd1-4a1387cd8663",
+              "name": "situacao",
+              "value": "Conferencia Manual",
+              "type": "string"
+            },
+            {
+              "id": "e1c1f5de-60d2-4ff5-8f92-70d9a721348a",
+              "name": "mensagem",
+              "value": "=Prezado  {{ $('dados').item.json.representante }}, O cadastro segue para analise documental.",
+              "type": "string"
+            },
+            {
+              "id": "ecacfdf1-ec77-46b2-9e5c-ce852f607944",
+              "name": "consultado_em",
+              "value": "={{ $now.setZone('America/Cuiaba').toFormat('dd/MM/yyyy HH:mm') }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        1088,
+        304
+      ],
+      "id": "e4420705-6064-4184-90ae-dc8dba6a42b2",
+      "name": "conferencia manual"
+    },
+    {
+      "parameters": {
+        "dataTableId": {
+          "__rl": true,
+          "value": "z4A7PM2rFFsgVFua",
+          "mode": "list",
+          "cachedResultName": "cadastro_fornecedores",
+          "cachedResultUrl": "/projects/wI3QTyQmxc2of8VQ/datatables/z4A7PM2rFFsgVFua"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "protocolo": "={{ $json.protocolo }}",
+            "razao_social": "={{ $json.razao_social }}",
+            "cnpj": "={{ $json.cnpj }}",
+            "email": "={{ $json.email }}",
+            "uf": "={{ $json.uf }}",
+            "municipio": "={{ $json.municipio }}",
+            "logradouro": "={{ $json.logradouro }}",
+            "mensagem": "={{ $json.mensagem }}",
+            "situacao": "={{ $json.situacao }}",
+            "consultado_em": "={{ $json.consultado_em }}",
+            "cep": "={{ $json.cep }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "razao_social",
+              "displayName": "razao_social",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "cnpj",
+              "displayName": "cnpj",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "protocolo",
+              "displayName": "protocolo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "email",
+              "displayName": "email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "municipio",
+              "displayName": "municipio",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "uf",
+              "displayName": "uf",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "logradouro",
+              "displayName": "logradouro",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "situacao",
+              "displayName": "situacao",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "mensagem",
+              "displayName": "mensagem",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "consultado_em",
+              "displayName": "consultado_em",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "cep",
+              "displayName": "cep",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        1344,
+        256
+      ],
+      "id": "f4d0eea7-9f3b-43be-809e-98362854c238",
+      "name": "REgistrar Dados"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "bae421b7-ce4e-4f33-9981-daa370fbbbec",
+              "name": "protocolo",
+              "value": "={{ $('dados').item.json.protocolo }}",
+              "type": "string"
+            },
+            {
+              "id": "925801b3-fca8-4c87-877a-b1be9cd6e398",
+              "name": "razao_social",
+              "value": "={{ $('dados').item.json.razao_social }}",
+              "type": "string"
+            },
+            {
+              "id": "f5b09af4-298b-4c7a-bab6-8f95f945e867",
+              "name": "cnpj",
+              "value": "={{ $('dados').item.json.cnpj }}",
+              "type": "string"
+            },
+            {
+              "id": "a1517563-bc77-43a4-a457-a5c7f3e55081",
+              "name": "email",
+              "value": "={{ $('dados').item.json.email }}",
+              "type": "string"
+            },
+            {
+              "id": "4293e2c6-e2fd-45c4-921a-046aab3c722a",
+              "name": "cep",
+              "value": "={{ $('dados').item.json.cep }}",
+              "type": "string"
+            },
+            {
+              "id": "5d7fa8e4-25d8-4084-a541-6649df991cc0",
+              "name": "uf",
+              "value": "={{ $('Consulta CEP').item.json.state }}",
+              "type": "string"
+            },
+            {
+              "id": "e7847172-7827-4cba-b4e8-d86614f87108",
+              "name": "logradouro",
+              "value": "={{ $('Consulta CEP').item.json.street }}",
+              "type": "string"
+            },
+            {
+              "id": "afeb37b8-7c51-4e38-b753-0b4ead631210",
+              "name": "municipio",
+              "value": "={{ $('Consulta CEP').item.json.city }}",
+              "type": "string"
+            },
+            {
+              "id": "f0924018-f27a-4535-abd1-4a1387cd8663",
+              "name": "situacao",
+              "value": "CEP não localizado",
+              "type": "string"
+            },
+            {
+              "id": "e1c1f5de-60d2-4ff5-8f92-70d9a721348a",
+              "name": "mensagem",
+              "value": "=Prezado  {{ $('dados').item.json.representante }}, O cadastro segue para analise documental.",
+              "type": "string"
+            },
+            {
+              "id": "ecacfdf1-ec77-46b2-9e5c-ce852f607944",
+              "name": "consultado_em",
+              "value": "={{ $now.setZone('America/Cuiaba').toFormat('dd/MM/yyyy HH:mm') }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        1088,
+        544
+      ],
+      "id": "9502ecad-2d4d-426c-96ca-64bf9ecfe75f",
+      "name": "erro cep"
+    },
+    {
+      "parameters": {
+        "formTitle": "Cadastro Empresa",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Protocolo"
+            },
+            {
+              "fieldLabel": "Razão Social"
+            },
+            {
+              "fieldLabel": "CNPJ"
+            },
+            {
+              "fieldLabel": "Representante"
+            },
+            {
+              "fieldLabel": "E-mail",
+              "fieldType": "email"
+            },
+            {
+              "fieldLabel": "CEP"
+            }
+          ]
+        },
+        "options": {
+          "path": "cad-empresa",
+          "customCss": ":root {\n\t--font-family: 'Open Sans', sans-serif;\n\t--font-weight-normal: 400;\n\t--font-weight-bold: 600;\n\t--font-size-body: 12px;\n\t--font-size-label: 14px;\n\t--font-size-test-notice: 12px;\n\t--font-size-input: 14px;\n\t--font-size-header: 20px;\n\t--font-size-paragraph: 14px;\n\t--font-size-link: 12px;\n\t--font-size-error: 12px;\n\t--font-size-html-h1: 28px;\n\t--font-size-html-h2: 20px;\n\t--font-size-html-h3: 16px;\n\t--font-size-html-h4: 14px;\n\t--font-size-html-h5: 12px;\n\t--font-size-html-h6: 10px;\n\t--font-size-subheader: 14px;\n\n\t/* Colors */\n\t--color-background: #fbfcfe;\n\t--color-test-notice-text: #e6a23d;\n\t--color-test-notice-bg: #fefaf6;\n\t--color-test-notice-border: #f6dcb7;\n\t--color-card-bg: #ffffff;\n\t--color-card-border: #dbdfe7;\n\t--color-card-shadow: rgba(99, 77, 255, 0.06);\n\t--color-link: #7e8186;\n\t--color-header: #525356;\n\t--color-label: #555555;\n\t--color-input-border: #dbdfe7;\n\t--color-input-text: #71747A;\n\t--color-focus-border: rgb(90, 76, 194);\n\t--color-submit-btn-bg: #ff6d5a;\n\t--color-submit-btn-text: #ffffff;\n\t--color-error: #ea1f30;\n\t--color-required: #ff6d5a;\n\t--color-clear-button-bg: #7e8186;\n\t--color-html-text: #555;\n\t--color-html-link: #ff6d5a;\n\t--color-header-subtext: #7e8186;\n\n\t/* Border Radii */\n\t--border-radius-card: 8px;\n\t--border-radius-input: 6px;\n\t--border-radius-clear-btn: 50%;\n\t--card-border-radius: 8px;\n\n\t/* Spacing */\n\t--padding-container-top: 24px;\n\t--padding-card: 24px;\n\t--padding-test-notice-vertical: 12px;\n\t--padding-test-notice-horizontal: 24px;\n\t--margin-bottom-card: 16px;\n\t--padding-form-input: 12px;\n\t--card-padding: 24px;\n\t--card-margin-bottom: 16px;\n\n\t/* Dimensions */\n\t--container-width: 448px;\n\t--submit-btn-height: 48px;\n\t--checkbox-size: 18px;\n\n\t/* Others */\n\t--box-shadow-card: 0px 4px 16px 0px var(--color-card-shadow);\n\t--opacity-placeholder: 0.5;\n}"
+        }
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.6,
+      "position": [
+        128,
+        224
+      ],
+      "id": "22b8ad48-9097-4417-8f06-c1a669b728f5",
+      "name": "On form submission",
+      "webhookId": "ef8f23d0-d168-4a14-8deb-f4f2873967d9"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "5803097f-659d-4636-b9e9-381db6c2b214",
+              "name": "protocolo",
+              "value": "={{ $json.Protocolo }}",
+              "type": "string"
+            },
+            {
+              "id": "2a7cb043-35b7-4d7a-b54f-deb0e523380d",
+              "name": "razao_social",
+              "value": "={{ $json['Razão Social'] }}",
+              "type": "string"
+            },
+            {
+              "id": "78223361-f7aa-4b76-ab79-0dfe8bab3902",
+              "name": "cnpj",
+              "value": "={{ $json.CNPJ }}",
+              "type": "string"
+            },
+            {
+              "id": "829fb410-8c6f-43e2-9cb0-7b52199f7860",
+              "name": "representante",
+              "value": "={{ $json.Representante }}",
+              "type": "string"
+            },
+            {
+              "id": "755baf33-581c-4bc3-af17-2b0f538f9e07",
+              "name": "email",
+              "value": "={{ $json['E-mail'] }}",
+              "type": "string"
+            },
+            {
+              "id": "8a35fb30-74ea-47a2-a014-e893e7598ce0",
+              "name": "cep",
+              "value": "={{ $json.CEP }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        368,
+        368
+      ],
+      "id": "0ae270d9-b2e9-4e1b-a199-7a2dd27be50c",
+      "name": "dados"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Consulta CEP": {
+      "main": [
+        [
+          {
+            "node": "if verifica MT",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "erro cep",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "if verifica MT": {
+      "main": [
+        [
+          {
+            "node": "apto para cadastro",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "conferencia manual",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "conferencia manual": {
+      "main": [
+        [
+          {
+            "node": "REgistrar Dados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "apto para cadastro": {
+      "main": [
+        [
+          {
+            "node": "REgistrar Dados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "erro cep": {
+      "main": [
+        [
+          {
+            "node": "REgistrar Dados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "dados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "dados": {
+      "main": [
+        [
+          {
+            "node": "Consulta CEP",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "d0964102-7f83-44ba-9526-02cf99c95087",
+  "meta": {
+    "instanceId": "5c9a5113e37d0de00f6b62fdd4640adc4b5e0e8e694e0b4a5f3b64c2ea1f45bc"
+  },
+  "nodeGroups": [],
+  "id": "kNG37NQUOVOhSEjL",
+  "tags": []
+}
